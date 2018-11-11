@@ -1,0 +1,23 @@
+{
+  "name": "cross-server-bot",
+  "version": "1.0.0",
+  "description": "Cross Server Bot to link channels",
+  "author": "KhaaZ#0001",
+  "license": "MIT",
+  "main": "index.js",
+  "dependencies": {
+    "eris": "^0.9.0"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "pm2start": "pm2 start index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Khaazz/Cross-Server-Bot.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Khaazz/Cross-Server-Bot/issues"
+  },
+  "homepage": "https://github.com/Khaazz/Cross-Server-Bot#readme"
+}
