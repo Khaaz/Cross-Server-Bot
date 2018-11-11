@@ -1,0 +1,17 @@
+{
+    "token": "",
+    "guilds": {
+        "name": {
+            "guildID": "",
+            "channelID": "",
+            "whID": "",
+            "whToken": ""
+        },
+        "name2": {
+            "guildID": "",
+            "channelID": "",
+            "whID": "",
+            "whToken": ""
+        }
+    }
+}
