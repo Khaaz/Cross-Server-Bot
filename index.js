@@ -3,6 +3,8 @@ const config = require('./config.json')
 
 const link = {};
 
+const filterUsername = /[A-Za-z0-9_!?{}[\]() -,.]*/g
+
 const bot = new Client(config.token, {
     defaultImageFormat: 'png',
     defaultImageSize: 1024,
@@ -33,25 +35,26 @@ bot.once('ready',() => {
 
 async function triggerWH(guild, user, content) {
     try {
+        const username = user.username.match(filterUsername).join('');
         await bot.executeWebhook(link[guild].whID, link[guild].whToken, {
-            username: `${user.username}#${user.discriminator}`,
+            username: `${username}#${user.discriminator}`,
             avatarURL: user.avatarURL,
             content: content,
         });
     } catch (err) {
-        const botGuild = bot.guilds.get(guild.guildID);
+        const botGuild = bot.guilds.get(link[guild].guildID);
         const errMsg = botGuild 
             ? `WebHook unavailable in ${botGuild.name}.`
             : `Guild unavailable: ${guild.guildID}.`
         
         console.log(errMsg);
         
-        for (const guild in link) {
-            if (link[guild].guildID === guild.guildID) {
+        for (const g in link) {
+            if (link[g].guildID === guild.guildID) {
                 continue;
             }
             try {
-                await bot.executeWebhook(link[guild].whID, link[guild].whToken, {
+                await bot.executeWebhook(link[g].whID, link[g].whToken, {
                     username: bot.user.username,
                     avatarURL: bot.user.avatarURL,
                     content: errMsg,
