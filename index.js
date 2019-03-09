@@ -96,7 +96,11 @@ bot.on('messageCreate', msg => {
 
 bot.on('messageUpdate', (msg, oldMsg) => {
     // !oldMsg = message not cached = don't log the update
-    if (!msg.author || msg.author.bot || !msg.channel.guild || !oldMsg) {
+    if (!msg.author || msg.author.bot || !msg.channel.guild || !oldMsg) { // msg.author -> edge case bug
+        return;
+    }
+
+    if (oldMsg.content === msg.content) {
         return;
     }
 
