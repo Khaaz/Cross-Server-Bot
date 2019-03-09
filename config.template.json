@@ -1,5 +1,6 @@
 {
     "token": "",
+    "enhancedMention": false,
     "guilds": {
         "name": {
             "guildID": "",

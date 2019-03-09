@@ -1,9 +1,16 @@
+'use strict';
+
 const Client = require('eris');
-const config = require('./config.json')
+const config = require('./config.json');
+const Resolver = require('./Resolver');
+
+const enhancedMention = !!config.enhancedMention;
 
 const link = {};
 
-const filterUsername = /[A-Za-z0-9_!?{}[\]() -,.]*/g
+const FILTER_USERNAME_REGEX = /[A-Za-z0-9_!?{}[\]() -,.]*/g
+const TRY_MENTION_REGEX = /(?<=@|#)([!&]?[0-9]+|\S+)[^> ]?/g
+const RESOLVABLE_REGEX = /!?([&#])?(.*)/
 
 const bot = new Client(config.token, {
     defaultImageFormat: 'png',
@@ -33,13 +40,52 @@ bot.once('ready',() => {
     }
 })
 
+
+function resolve(resolvable, guild) {
+    const toResolve = resolvable.match(RESOLVABLE_REGEX)
+    if (!toResolve) {
+        return null;
+    }
+
+    if (toResolve[1] === '&') {
+        return Resolver.role(guild, toResolve[2]);
+    }
+    
+    return Resolver.member(guild, toResolve[2]) || Resolver.role(guild, toResolve[2]) || Resolver.channel(guild, toResolve[2]);
+}
+
+function parse(content, guild) {
+    const res = content.match(TRY_MENTION_REGEX);
+    if (!res) {
+        return null;
+    }
+    const resolved = resolve(res[0], guild);
+    if (!resolved) {
+        return null;
+    }
+    return resolved.mention;
+}
+
+
+function enhanceMention(content, guild) {
+    const arr = content.split(' ');
+    
+    for (const e of arr) {
+        const parsed = parse(e, guild);
+        if (parsed) {
+            e = parsed;
+        }
+    }
+    return arr.join(' ');
+}
+
 async function triggerWH(guild, user, content) {
     try {
-        const username = user.username.match(filterUsername).join('');
+        const username = user.username.match(FILTER_USERNAME_REGEX).join('');
         await bot.executeWebhook(link[guild].whID, link[guild].whToken, {
             username: `${username}#${user.discriminator}`,
             avatarURL: user.avatarURL,
-            content: content,
+            content: enhancedMention ? enhanceMention(content, guild) : content,
         });
     } catch (err) {
         const botGuild = bot.guilds.get(link[guild].guildID);
