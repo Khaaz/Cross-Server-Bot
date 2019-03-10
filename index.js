@@ -89,7 +89,7 @@ function deconstructMention(content, guild) {
     for (const e of arr) {
         const parsed = parse(e, guild);
         parsed 
-            ? final.push(parsed.name)
+            ? final.push('@' + parsed.username ? `${parsed.username}#${parsed.discriminator}` : parsed.name)
             : final.push(e);
     }
     return final.join(' ');
