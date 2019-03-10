@@ -80,17 +80,17 @@ function enhanceMention(content, guild) {
 }
 
 async function triggerWH(guild, user, content) {
+    const guildObj = bot.guilds.get(link[guild].guildID);
     try {
         const username = user.username.match(FILTER_USERNAME_REGEX).join('');
         await bot.executeWebhook(link[guild].whID, link[guild].whToken, {
             username: `${username}#${user.discriminator}`,
             avatarURL: user.avatarURL,
-            content: enhancedMention ? enhanceMention(content, guild) : content,
+            content: enhancedMention ? enhanceMention(content, guildObj) : content,
         });
     } catch (err) {
-        const botGuild = bot.guilds.get(link[guild].guildID);
-        const errMsg = botGuild 
-            ? `WebHook unavailable in ${botGuild.name}.`
+        const errMsg = guildObj 
+            ? `WebHook unavailable in ${guildObj.name}.`
             : `Guild unavailable: ${guild.guildID}.`
         
         console.log(errMsg);
