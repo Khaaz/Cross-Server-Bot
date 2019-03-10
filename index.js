@@ -50,7 +50,7 @@ function resolve(resolvable, guild) {
     if (toResolve[1] === '&') {
         return Resolver.role(guild, toResolve[2]);
     }
-    
+
     return Resolver.member(guild, toResolve[2]) || Resolver.role(guild, toResolve[2]) || Resolver.channel(guild, toResolve[2]);
 }
 
@@ -94,6 +94,7 @@ async function triggerWH(guild, user, content) {
             : `Guild unavailable: ${guild.guildID}.`
         
         console.log(errMsg);
+        console.log(err);
         
         for (const g in link) {
             if (link[g].guildID === guild.guildID) {

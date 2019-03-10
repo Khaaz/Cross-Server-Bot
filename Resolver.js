@@ -4,7 +4,7 @@ const REGEXES = {
     userMention: /<@!?([0-9]+)>$/,
     roleMention: /<@&([0-9]+)>$/,
     channelMention: /<#([0-9]+)>$/,
-    ID: /^[0-9]+$/,
+    id: /^[0-9]+$/,
 }
 
 /**
