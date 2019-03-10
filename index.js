@@ -63,20 +63,36 @@ function parse(content, guild) {
     if (!resolved) {
         return null;
     }
-    return resolved.mention;
+    return resolved;
 }
 
 
 function enhanceMention(content, guild) {
     const arr = content.split(' ');
     
+    const final = [];
+
     for (const e of arr) {
         const parsed = parse(e, guild);
-        if (parsed) {
-            e = parsed;
-        }
+        parsed 
+            ? final.push(parsed.mention)
+            : final.push(e);
     }
-    return arr.join(' ');
+    return final.join(' ');
+}
+
+function deconstructMention(content, guild) {
+    const arr = content.split(' ');
+    
+    const final = [];
+
+    for (const e of arr) {
+        const parsed = parse(e, guild);
+        parsed 
+            ? final.push(parsed.name)
+            : final.push(e);
+    }
+    return final.join(' ');
 }
 
 async function triggerWH(guild, user, content) {
@@ -128,7 +144,7 @@ bot.on('messageCreate', msg => {
             ? msg.attachments.map(a => a.url).join('\n')
             : '';
 
-    const fullMsg = `${attachments}\n${msg.content}`
+    const fullMsg = `${attachments}\n${deconstructMention(msg.content, msg.channel.guild)}`
     if (fullMsg.length > 2000) {
         return msg.channel.createMessage(`${msg.author.mention}: Message too long!`);
     }
