@@ -51,7 +51,7 @@ function resolve(resolvable, guild) {
         return Resolver.role(guild, toResolve[2]);
     }
 
-    return Resolver.member(guild, toResolve[2]) || Resolver.role(guild, toResolve[2]) || Resolver.channel(guild, toResolve[2]);
+    return Resolver.role(guild, toResolve[2]) || Resolver.channel(guild, toResolve[2]) || Resolver.member(guild, toResolve[2]);
 }
 
 function parse(content, guild) {
@@ -89,7 +89,7 @@ function deconstructMention(content, guild) {
     for (const e of arr) {
         const parsed = parse(e, guild);
         parsed 
-            ? final.push('@' + parsed.username ? `${parsed.username}#${parsed.discriminator}` : parsed.name)
+            ? final.push('@' + (parsed.username ? `${parsed.username}#${parsed.discriminator}` : parsed.name))
             : final.push(e);
     }
     return final.join(' ');
