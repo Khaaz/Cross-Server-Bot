@@ -6,7 +6,8 @@
             "guildID": "",
             "channelID": "",
             "whID": "",
-            "whToken": ""
+            "whToken": "",
+            "ignored": false
         },
         "name2": {
             "guildID": "",
