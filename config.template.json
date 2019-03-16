@@ -1,6 +1,10 @@
 {
     "token": "",
-    "enhancedMention": false,
+    "enhancedMention": {
+        "user": false,
+        "role": false,
+        "channel": false
+    },
     "guilds": {
         "name": {
             "guildID": "",

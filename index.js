@@ -4,13 +4,13 @@ const Client = require('eris');
 const config = require('./config.json');
 const Resolver = require('./Resolver');
 
-const enhancedMention = !!config.enhancedMention;
+const enhancedMention = config.enhancedMention || { user: false, role: false, channel: false};
 
 const link = {};
 
-const FILTER_USERNAME_REGEX = /[A-Za-z0-9_!?{}[\]() -,.]*/g
-const TRY_MENTION_REGEX = /(?<=@|#)([!&]?[0-9]+|\S+)[^> ]?/g
-const RESOLVABLE_REGEX = /!?([&#])?(.*)/
+const FILTER_USERNAME_REGEX = /[A-Za-z0-9_!?{}[\]() -,.éèàùäëüïöôâû]*/g;
+const TRY_MENTION_REGEX = /(?<=((?<!<)@|(?<!<)#))(\S+)/;
+const MENTION_REGEX = /<(@&|@|#)!?([0-9]+)>/;
 
 const bot = new Client(config.token, {
     defaultImageFormat: 'png',
@@ -40,59 +40,116 @@ bot.once('ready',() => {
     }
 })
 
+function enhanceMention(contentArr, guild) {
+    const final = [];
 
-function resolve(resolvable, guild) {
-    const toResolve = resolvable.match(RESOLVABLE_REGEX)
-    if (!toResolve) {
-        return null;
+    for (const e of contentArr) {
+        const resolved = typeof e != 'string'
+            ? resolve(e, guild)
+            : parse(e, guild);
+
+        final.push(resolved);
+    }
+    return final.join(' ');
+}
+
+function resolve(toResolve, guild) {
+    if (toResolve.type === 1) { // user
+        const resolved = Resolver.member(guild, toResolve.resolved.id);
+        return resolved 
+            ? resolved.mention
+            : `${toResolve.resolved.username}#${toResolve.resolved.discriminator}`;
     }
 
-    if (toResolve[1] === '&') {
-        return Resolver.role(guild, toResolve[2]);
+    if (toResolve.type === 2) { // role
+        const resolved = Resolver.role(guild, toResolve.resolved.name);
+        return resolved 
+            ? resolved.mention
+            : `@${toResolve.resolved.name}`;
     }
 
-    return Resolver.member(guild, toResolve[2]) || Resolver.role(guild, toResolve[2]) || Resolver.channel(guild, toResolve[2]);
+    if (toResolve.type === 3) { // channel
+        const resolved = Resolver.channel(guild, toResolve.resolved.name);
+        return resolved 
+            ? resolved.mention
+            : `#${toResolve.resolved.name}`;
+    }
 }
 
 function parse(content, guild) {
     const res = content.match(TRY_MENTION_REGEX);
     if (!res) {
-        return null;
+        return content;
     }
-    const resolved = resolve(res[0], guild);
-    if (!resolved) {
-        return null;
+
+    let resolved = null;
+    if (res[1] === '@') {
+        resolved = enhancedMention.role ? Resolver.role(guild, res[2]) : null;
+        if (resolved) {
+            return resolved.mention;
+        }
+        resolved = enhancedMention.user ? Resolver.member(guild, res[2]) : null
+        if (resolved) {
+            return resolved.mention;
+        }
+        return content;
     }
-    return resolved;
-}
-
-
-function enhanceMention(content, guild) {
-    const arr = content.split(' ');
-    
-    const final = [];
-
-    for (const e of arr) {
-        const parsed = parse(e, guild);
-        parsed 
-            ? final.push(parsed.mention)
-            : final.push(e);
+    if (enhancedMention.channel && res[1] === '#') {
+        resolved = Resolver.channel(guild, res[2]);
+        return resolved 
+            ? resolved.mention
+            : content;
     }
-    return final.join(' ');
+    return content;
 }
 
 function deconstructMention(content, guild) {
-    const arr = content.split(' ');
-    
+    const contentArr = content.split(' ');
     const final = [];
 
-    for (const e of arr) {
-        const parsed = parse(e, guild);
-        parsed 
-            ? final.push('@' + parsed.username ? `${parsed.username}#${parsed.discriminator}` : parsed.name)
+    for (const e of contentArr) {
+        const res = e.match(MENTION_REGEX);
+        res
+            ? final.push(extractMention(res, guild))
             : final.push(e);
     }
-    return final.join(' ');
+    return final;
+}
+
+function extractMention(match, guild) {
+    const type = match[1];
+    const toResolve = match[2];
+    if (type === '@') { // user mention
+        const resolved = Resolver.member(guild, toResolve);
+        if (!resolved) {
+            return match[0];
+        }
+
+        return enhancedMention.user 
+            ? { type: 1, resolved }
+            : `\@${resolved.username}#${resolved.discriminator}`;
+    }
+
+    if (type === '@&') { // role mention
+        const resolved = Resolver.role(guild, toResolve);
+        if (!resolved) {
+            return match[0];
+        }
+        
+        return enhancedMention.role 
+            ? { type: 2, resolved }
+            : `\@${resolved.name}`;
+    }
+    if (type === '#') { // channel mention
+        const resolved = Resolver.channel(guild, toResolve);
+        if (!resolved) {
+            return match[0];
+        }
+        
+        return enhancedMention.channel 
+            ? { type: 3, resolved }
+            : `\#${resolved.name}`;
+    }
 }
 
 async function triggerWH(guild, user, content) {
@@ -102,7 +159,7 @@ async function triggerWH(guild, user, content) {
         await bot.executeWebhook(link[guild].whID, link[guild].whToken, {
             username: `${username}#${user.discriminator}`,
             avatarURL: user.avatarURL,
-            content: enhancedMention ? enhanceMention(content, guildObj) : content,
+            content: enhanceMention(content, guildObj),
         });
     } catch (err) {
         const errMsg = guildObj 
@@ -141,11 +198,13 @@ bot.on('messageCreate', msg => {
     }
 
     const attachments = msg.attachments.length > 0
-            ? msg.attachments.map(a => a.url).join('\n')
-            : '';
+        ? msg.attachments.map(a => a.url)
+        : [];
 
-    const fullMsg = `${attachments}\n${deconstructMention(msg.content, msg.channel.guild)}`
-    if (fullMsg.length > 2000) {
+    const fullLength = `${attachments.join('\n')}\n${msg.content}`.length
+    const fullMsg = [...attachments, ...deconstructMention(msg.content, msg.channel.guild)]
+
+    if (fullLength > 2000) {
         return msg.channel.createMessage(`${msg.author.mention}: Message too long!`);
     }
 
@@ -173,11 +232,14 @@ bot.on('messageUpdate', (msg, oldMsg) => {
     }
 
     const attachments = msg.attachments.length > 0
-            ? msg.attachments.map(a => a.url).join('\n')
-            : '';
+        ? msg.attachments.map(a => a.url)
+        : [];
 
-    const fullMsg = `${attachments}\n${msg.content} *(edited)*`
-    if (fullMsg.length > 2000) {
+    msg.content += ' *(edited)*'
+
+    const fullLength = `${attachments.join('\n')}\n${msg.content}`.length
+    const fullMsg = [...attachments, ...deconstructMention(msg.content, msg.channel.guild)]
+    if (fullLength > 2000) {
         return msg.channel.createMessage(`${msg.author.mention}: Message too long!`);
     }
 

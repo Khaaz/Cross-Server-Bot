@@ -19,7 +19,11 @@ Enter your bot token and all correct informations:
 ```js
 {
     "token": "botToken",
-    "enhancedMention": false,
+    "enhancedMention": {
+        "user": false,
+        "role": false,
+        "channel": false
+    },
     "guilds": {
         "youGuildName": {
             "guildID": "111111",
@@ -38,7 +42,7 @@ Enter your bot token and all correct informations:
 ```
 You can enter here as many guilds as you want. Make sure webhooks and channels are valid.  
 
-The enhancedsMention system makes the bot automatically resolve users, roles, channels in every guild if tried to be mentioned in another guild.  
+The enhancedMention system makes the bot automatically resolve users, roles, channels in every guild if tried to be mentioned in another guild.  
 For instance if you type a message with `@user` in your guild but this user is not in your current guild but only in an other guild connected through the cross server system, it will mention the user in this other guild.  
 
 To start the bot once everything is ready, you can do: 
