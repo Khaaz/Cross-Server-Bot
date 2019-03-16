@@ -152,10 +152,24 @@ function extractMention(match, guild) {
     }
 }
 
+function filterUsername(username) {
+    const usr = username.match(FILTER_USERNAME_REGEX).join('');
+    if (usr.length < 2) {
+        for (let i = 0; i < 2 - usr.length ; i++) {
+            usr + 'a';
+        }
+        return usr;  
+    }
+    if (usr.length > 32) {
+        return usr.slice(0, 32);
+    }
+    return usr;
+}
+
 async function triggerWH(guild, user, content) {
     const guildObj = bot.guilds.get(link[guild].guildID);
     try {
-        const username = user.username.match(FILTER_USERNAME_REGEX).join('');
+        const username = filterUsername(user.username);
         await bot.executeWebhook(link[guild].whID, link[guild].whToken, {
             username: `${username}#${user.discriminator}`,
             avatarURL: user.avatarURL,
