@@ -10,7 +10,8 @@
             "guildID": "",
             "channelID": "",
             "whID": "",
-            "whToken": ""
+            "whToken": "",
+            "ignore": false
         },
         "name2": {
             "guildID": "",
