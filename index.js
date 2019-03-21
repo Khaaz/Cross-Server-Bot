@@ -211,7 +211,7 @@ bot.on('messageCreate', msg => {
         return;
     }
 
-    if (cur.ignore && cur.ignore === true) { // Make sure cur.ignore exists (just in case) and check if it is set to true.
+    if (cur.ignore) {
         return;
     }
 
