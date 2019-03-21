@@ -8,7 +8,7 @@ const enhancedMention = config.enhancedMention || { user: false, role: false, ch
 
 const network = {};
 
-const FILTER_USERNAME_REGEX = /[A-Za-z0-9_!?{}[\]() -,.éèàùäëüïöôâû]*/g;
+const FILTER_USERNAME_REGEX = /[A-Za-z0-9_!?{}[\]() -,.éè]*/g;
 const TRY_MENTION_REGEX = /(?<=((?<!<)@|(?<!<)#))(\S+)/;
 const MENTION_REGEX = /<(@&|@|#)!?([0-9]+)>/;
 
@@ -208,6 +208,10 @@ bot.on('messageCreate', msg => {
 
     const cur = network[msg.channel.id]
     if (!cur || msg.channel.id != cur.channelID) {
+        return;
+    }
+
+    if (cur.ignore && cur.ignore === true) { // Make sure cur.ignore exists (just in case) and check if it is set to true.
         return;
     }
 

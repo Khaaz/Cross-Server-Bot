@@ -9,6 +9,7 @@ Link channels between them easily using webhooks and by just completing the json
   - Support images.
   - Warn if a server supposed to be in the linked channels is not here anymore or if a webhook is falsy.
   - EnhancedMention - mention a user/role/channel in another guild easily by simply using `@name` or `#name`. 
+  - ignore - Whether or not to ignore messages coming from that channel.
 
 ## Setup
 Clone this repository.  
@@ -29,7 +30,8 @@ Enter your bot token and all correct informations:
             "guildID": "111111",
             "channelID": "121212",
             "whID": "232323",
-            "whToken": "webhookToken2323"
+            "whToken": "webhookToken2323",
+            "ignore": false
         },
         "otherGuildName": {
             "guildID": "444444",
