@@ -6,7 +6,7 @@ const Resolver = require('./Resolver');
 
 const enhancedMention = config.enhancedMention || { user: false, role: false, channel: false};
 
-const link = {};
+const network = {};
 
 const FILTER_USERNAME_REGEX = /[A-Za-z0-9_!?{}[\]() -,.éèàùäëüïöôâû]*/g;
 const TRY_MENTION_REGEX = /(?<=((?<!<)@|(?<!<)#))(\S+)/;
@@ -29,7 +29,7 @@ bot.once('ready',() => {
         if (!botGuild) {
             console.log(`Bot not in the guild: ${val.guildID}`)
         } else {
-            link[val.guildID] = val;
+            network[val.channelID] = val;
             bot.executeWebhook(val.whID, val.whToken, {
                 username: bot.user.username,
                 avatarURL: bot.user.avatarURL,
@@ -166,11 +166,11 @@ function filterUsername(username) {
     return usr;
 }
 
-async function triggerWH(guild, user, content) {
-    const guildObj = bot.guilds.get(link[guild].guildID);
+async function triggerWH(channel, user, content) {
+    const guildObj = bot.guilds.get(network[channel].guildID);
     try {
         const username = filterUsername(user.username);
-        await bot.executeWebhook(link[guild].whID, link[guild].whToken, {
+        await bot.executeWebhook(network[channel].whID, network[channel].whToken, {
             username: `${username}#${user.discriminator}`,
             avatarURL: user.avatarURL,
             content: enhanceMention(content, guildObj),
@@ -183,12 +183,12 @@ async function triggerWH(guild, user, content) {
         console.log(errMsg);
         console.log(err);
         
-        for (const g in link) {
-            if (link[g].guildID === guild.guildID) {
+        for (const c in network) {
+            if (network[c].guildID === guild.guildID) {
                 continue;
             }
             try {
-                await bot.executeWebhook(link[g].whID, link[g].whToken, {
+                await bot.executeWebhook(network[c].whID, network[c].whToken, {
                     username: bot.user.username,
                     avatarURL: bot.user.avatarURL,
                     content: errMsg,
@@ -206,7 +206,7 @@ bot.on('messageCreate', msg => {
         return;
     }
 
-    const cur = link[msg.channel.guild.id]
+    const cur = network[msg.channel.id]
     if (!cur || msg.channel.id != cur.channelID) {
         return;
     }
@@ -222,11 +222,11 @@ bot.on('messageCreate', msg => {
         return msg.channel.createMessage(`${msg.author.mention}: Message too long!`);
     }
 
-    for (const guild in link) {
-        if (link[guild].guildID === msg.channel.guild.id) {
+    for (const channel in network) {
+        if (network[channel].channelID === msg.channel.id) {
             continue;
         }
-        triggerWH(guild, msg.author, fullMsg);
+        triggerWH(channel, msg.author, fullMsg);
     }
 })
 
@@ -240,7 +240,7 @@ bot.on('messageUpdate', (msg, oldMsg) => {
         return;
     }
 
-    const cur = link[msg.channel.guild.id]
+    const cur = network[msg.channel.id]
     if (!cur || msg.channel.id != cur.channelID) {
         return;
     }
@@ -257,10 +257,10 @@ bot.on('messageUpdate', (msg, oldMsg) => {
         return msg.channel.createMessage(`${msg.author.mention}: Message too long!`);
     }
 
-    for (const guild in link) {
-        if (link[guild].guildID === msg.channel.guild.id) {
+    for (const channel in network) {
+        if (network[channel].channelID === msg.channel.id) {
             continue;
         }
-        triggerWH(guild, msg.author, fullMsg);
+        triggerWH(channel, msg.author, fullMsg);
     }
 })
