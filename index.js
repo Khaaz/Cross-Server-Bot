@@ -8,7 +8,7 @@ const enhancedMention = config.enhancedMention || { user: false, role: false, ch
 
 const network = {};
 
-const FILTER_USERNAME_REGEX = /[A-Za-z0-9_!?{}[\]() -,.éè]*/g;
+const FILTER_USERNAME_REGEX = /[A-Za-z0-9_!? -,.éè]*/g;
 const TRY_MENTION_REGEX = /(?<=((?<!<)@|(?<!<)#))(\S+)/;
 const MENTION_REGEX = /<(@&|@|#)!?([0-9]+)>/;
 
