@@ -11,13 +11,15 @@
             "channelID": "",
             "whID": "",
             "whToken": "",
-            "ignore": false
+            "ignore": false,
+            "ignoreBots": true
         },
         "name2": {
             "guildID": "",
             "channelID": "",
             "whID": "",
-            "whToken": ""
+            "whToken": "",
+            "ignoreBots": true
         }
     }
 }

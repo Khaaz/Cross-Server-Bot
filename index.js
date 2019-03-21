@@ -202,7 +202,8 @@ async function triggerWH(channel, user, content) {
 }
 
 bot.on('messageCreate', msg => {
-    if (!msg.author || msg.author.bot || !msg.channel.guild) {
+
+    if (!msg.author || msg.author.discriminator === '0000' || !msg.channel.guild) {
         return;
     }
 
@@ -211,7 +212,11 @@ bot.on('messageCreate', msg => {
         return;
     }
 
-    if (cur.ignore) {
+    if (msg.author.bot && cur.ignoreBots !== false) { // ignore bots if needed (check for false to not accept bot in case of not defined)
+        return;
+    }
+
+    if (cur.ignore) { // ignore channels if needed
         return;
     }
 
