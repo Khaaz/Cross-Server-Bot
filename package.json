@@ -6,7 +6,10 @@
   "license": "MIT",
   "main": "index.js",
   "dependencies": {
-    "eris": "^0.9.0"
+    "eris": "github:khaazz/eris#axoncore"
+  },
+  "optionalDependencies": {
+    "pm2": "^3.5.1"
   },
   "scripts": {
     "start": "node index.js",
