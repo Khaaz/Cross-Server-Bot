@@ -52,3 +52,5 @@ For instance if you type a message with `@user` in your guild but this user is n
 To start the bot once everything is ready, you can do: 
   - `npm start` or `yarn start` to run the bot normally.
   - `npm pm2start` or `yarn pm2start` to run the bot with pm2.
+
+[![Run on Repl.it](https://repl.it/badge/github/Khaazz/Cross-Server-Bot)](https://repl.it/github/Khaazz/Cross-Server-Bot)
