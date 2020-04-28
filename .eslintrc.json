@@ -1,0 +1,6 @@
+{
+    "extends": "@axonteam/eslint-config",
+    "parserOptions": {
+        "sourceType": "script"
+    }
+}
