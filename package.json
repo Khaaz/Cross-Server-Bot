@@ -1,8 +1,8 @@
 {
   "name": "cross-server-bot",
-  "version": "1.0.0",
-  "description": "Cross Server Bot to link channels",
-  "author": "KhaaZ#0001",
+  "version": "3.0.0",
+  "description": "Cross Server Bot to link channels together",
+  "author": "Khaaz <khaaz.dev@gmail.com>",
   "license": "MIT",
   "main": "index.js",
   "dependencies": {
