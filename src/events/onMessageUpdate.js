@@ -32,11 +32,12 @@ exports.onMessageUpdate = async(botClient, network, channelsCache, msg, oldMsg) 
     }
 
     const messages = [];
-    for (const channelConfig in network) {
-        if (network[channelConfig].channelID === msg.channel.id) {
+    for (const channelID in network) {
+        const channelConfig = network[channelID];
+        if (channelConfig.channelID === msg.channel.id) {
             continue;
         }
-        messages.push(await triggerWH(botClient, network, network[channelConfig], cur, msg.author, fullMsg) );
+        messages.push(await triggerWH(botClient, network, channelConfig, cur, msg.author, fullMsg) );
     }
     const toDelete = channelsCache[msg.channel.id].get(msg.id);
     for (const m of toDelete) {
