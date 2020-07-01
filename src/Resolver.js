@@ -5,7 +5,7 @@ const REGEXES = {
     roleMention: /<@&([0-9]+)>$/,
     channelMention: /<#([0-9]+)>$/,
     id: /^[0-9]+$/,
-}
+};
 
 /**
  * Resolver class for AxonClient
@@ -35,7 +35,7 @@ class Resolver {
 
         args.all = args.join(' ');
         args.lower = args.all.toLowerCase();
-        const users = client.users;
+        const { users } = client;
 
         const mention = REGEXES.userMention.exec(args[0] );
 
@@ -69,7 +69,7 @@ class Resolver {
 
         args.all = args.join(' ');
         args.lower = args.all.toLowerCase();
-        const members = guild.members;
+        const { members } = guild;
 
         const mention = REGEXES.userMention.exec(args[0] );
 
@@ -109,7 +109,7 @@ class Resolver {
 
         args.all = args.join(' ');
         args.lower = args.all.toLowerCase();
-        const roles = guild.roles;
+        const { roles } = guild;
 
         const mention = REGEXES.roleMention.exec(args[0] );
 
@@ -144,7 +144,7 @@ class Resolver {
 
         args.all = args.join(' ');
         args.lower = args.all.toLowerCase();
-        const channels = guild.channels;
+        const { channels } = guild;
 
         const mention = REGEXES.channelMention.exec(args[0] );
 
@@ -172,7 +172,7 @@ class Resolver {
             throw new Error('RESOLVER [guild]: All the arguments are either not given or false.');
         }
 
-        const guilds = client.guilds;
+        const { guilds } = client;
         args.all = args.join(' ');
         args.lower = args.all.toLowerCase();
 
@@ -187,4 +187,4 @@ class Resolver {
     }
 }
 
-module.exports = Resolver;
+exports.Resolver = Resolver;

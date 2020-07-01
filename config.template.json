@@ -5,21 +5,31 @@
         "role": false,
         "channel": false
     },
-    "guilds": {
-        "name": {
+    "prefix": "c!",
+    "messageDelete": true,
+    "deleteOnUpdate": true,
+    "guilds": [ 
+        {
+            "name": "name",
+            "identifier": "",
             "guildID": "",
             "channelID": "",
             "whID": "",
             "whToken": "",
-            "ignore": false,
-            "ignoreBots": true
+            "ignoreAll": false,
+            "ignoreBots": true,
+            "managerRoles": []
         },
-        "name2": {
+        {
+            "name": "name2",
+            "identifier": "",
             "guildID": "",
             "channelID": "",
             "whID": "",
             "whToken": "",
-            "ignoreBots": true
+            "ignoreAll": false,
+            "ignoreBots": true,
+            "managerRoles": []
         }
-    }
+    ]
 }
