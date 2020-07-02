@@ -73,6 +73,13 @@ You can enter here as many guilds as you want. Make sure webhooks and channels a
 The enhancedMention system makes the bot automatically resolve users, roles, channels in every guild if tried to be mentioned in another guild.  
 For instance if you type a message with `@user` in your guild but this user is not in your current guild but only in an other guild connected through the cross server system, it will mention the user in this other guild.  
 
+To enjoy all bots features you need to make sure the bot has the correct permissions:
+
+- `read messages`, `send messages`
+- `@everyone` role need to have the `use external emoji` permission in the channel in order to allow the bot to use all custom emotes 
+- `manage messages` in order to support `deleteOnUpdate` and `messageDelete` options
+- `manage permissions` in the channel in order to support using `lock` commands
+
 To start the bot once everything is ready, you can do:
 
 - `npm start` or `yarn start` to run the bot normally.
