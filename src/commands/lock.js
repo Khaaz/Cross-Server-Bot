@@ -6,6 +6,8 @@ async function lock(bot, channel, roleID) {
     try {
         const perms = channel.permissionOverwrites.get(roleID);
         await bot.editChannelPermission(channel.id, roleID, perms.allow, perms.deny | SEND_PERM);
+        
+        bot.createMessage(channel.id, 'Channel locked!').catch();
     } catch (err) {
         bot.createMessage(channel.id, 'Permission Error').catch();
 
