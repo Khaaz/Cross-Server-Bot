@@ -38,7 +38,7 @@ exports.triggerWH = async function (bot, network, channelConfig, originConfig, u
     try {
         const username = filterUsername(user.username);
         message = await bot.executeWebhook(channelConfig.whID, channelConfig.whToken, {
-            username: `${originConfig.identifier} | ${username}#${user.discriminator}`,
+            username: `${originConfig.identifier}${username}#${user.discriminator}`,
             avatarURL: user.avatarURL,
             content: enhanceMention(content, guildObj),
             wait: true,
