@@ -13,7 +13,7 @@ exports.setup = function (bot, config) {
     bot.once('ready', () => {
         console.log('Ready!');
 
-        for (const val of config.guilds) {
+        for (const val of Object.values(config.guilds)) {
             const botGuild = bot.guilds.get(val.guildID);
             if (!botGuild) {
                 console.log(`Bot not in the guild: ${val.name}(${val.guildID})`);
