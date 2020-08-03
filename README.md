@@ -20,7 +20,7 @@ Supports message delete, update, lock command...
   - lock all - Lock all channels in the network: `c!lock all`
   - unlock - Unlock the current channel: `c!unlock`
   - unlock all - Unlock all channels: `c!unlock all`
-  - commands are usable by poeple with roles in managerRoles only.
+  - commands are usable by poeple with roles in manageRoles only.
 
 ## Setup
 
@@ -28,7 +28,7 @@ Clone this repository.
 Run `npm install` or `yarn`.  
 
 Copy and paste `config.template.json` as `config.json`.  
-Enter your bot token and all correct informations:
+Enter your bot token and all correct information:
 
 ```js
 {
@@ -41,8 +41,8 @@ Enter your bot token and all correct informations:
     },
     "messageDelete": true,
     "deleteOnUpdate": true,
-    "guilds": {
-        "youGuildName": {
+    "guilds": [
+        {
             "name": "name",
             "identifier": "",
             "guildID": "111111",
@@ -53,7 +53,7 @@ Enter your bot token and all correct informations:
             "ignoreBots": true,
             "managerRoles": []
         },
-        "otherGuildName": {
+        {
             "name": "name",
             "identifier": "",
             "guildID": "444444",
@@ -64,7 +64,7 @@ Enter your bot token and all correct informations:
             "ignoreBots": true,
             "managerRoles": []
         }
-    }
+    ]
 }
 ```
 
