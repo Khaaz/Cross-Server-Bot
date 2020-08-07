@@ -20,7 +20,7 @@ Supports message delete, update, lock command...
   - lock all - Lock all channels in the network: `c!lock all`
   - unlock - Unlock the current channel: `c!unlock`
   - unlock all - Unlock all channels: `c!unlock all`
-  - commands are usable by poeple with roles in manageRoles only.
+  - commands are usable by poeple that have one of the roles in the `managerRoles` field in the config.
 
 ## Setup
 
