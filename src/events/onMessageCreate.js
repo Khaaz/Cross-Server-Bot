@@ -3,8 +3,6 @@
 const { deconstructMention } = require('../enhancedMention');
 const { triggerWH, setInMap, MESSAGE_LIMIT } = require('../utils');
 
-const commands = require('../commands');
-
 exports.onMessageCreate = async(botClient, network, channelsCache, msg) => {
     if (!msg.author || msg.author.discriminator === '0000' || !msg.channel.guild) {
         return;
