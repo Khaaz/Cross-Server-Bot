@@ -37,7 +37,7 @@ exports.onMessageUpdate = async(botClient, network, channelsCache, deleteOnUpdat
         if (channelConfig.channelID === msg.channel.id) {
             continue;
         }
-        messages.push(await triggerWH(botClient, network, channelConfig, cur, msg.author, fullMsg) );
+        messages.push(await triggerWH(botClient, network, channelConfig, cur, msg.author, msg.member, fullMsg) );
     }
     if (deleteOnUpdate) {
         const toDelete = channelsCache[msg.channel.id].get(msg.id);

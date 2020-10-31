@@ -9,9 +9,9 @@ exports.triggerWH = async function (bot, network, channelConfig, originConfig, u
     const guildObj = bot.guilds.get(channelConfig.guildID);
     let message = null;
     try {
-        const username = filterUsername(user.username);
+        const authorName = member.nick ? member.nick : user.username;
         message = await bot.executeWebhook(channelConfig.whID, channelConfig.whToken, {
-            username: `${originConfig.identifier}${username}#${user.discriminator}`,
+            username: `${authorName} from ${originConfig.name}`,
             avatarURL: user.avatarURL,
             content: enhanceMention(content, guildObj),
             wait: true,

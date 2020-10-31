@@ -52,7 +52,7 @@ exports.onMessageCreate = async(botClient, network, channelsCache, msg) => {
         if (channelConfig.channelID === msg.channel.id) {
             continue;
         }
-        messages.push(await triggerWH(botClient, network, channelConfig, cur, msg.author, fullMsg) );
+        messages.push(await triggerWH(botClient, network, channelConfig, cur, msg.author, msg.member, fullMsg) );
     }
     setInMap(channelsCache[msg.channel.id], msg.id, messages);
 };
