@@ -21,7 +21,7 @@ exports.onMessageUpdate = async(botClient, network, channelsCache, deleteOnUpdat
     const attachments = msg.attachments.length > 0
         ? msg.attachments.map(a => a.url)
         : [];
-
+    
     msg.content += ' *(edited, original message was removed)*';
 
     const fullLength = `${attachments.join('\n')}\n${msg.content}`.length;
