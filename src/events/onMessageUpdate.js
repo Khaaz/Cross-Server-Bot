@@ -42,7 +42,11 @@ exports.onMessageUpdate = async(botClient, network, channelsCache, deleteOnUpdat
     if (deleteOnUpdate) {
         const toDelete = channelsCache[msg.channel.id].get(msg.id);
         for (const m of toDelete) {
-            m.delete().catch();
+            try {
+                m.delete().catch();
+            } catch (err) {
+                console.log(err);
+            }
         }
     }
     setInMap(channelsCache[msg.channel.id], msg.id, messages);
