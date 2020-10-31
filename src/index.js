@@ -20,12 +20,16 @@ exports.setup = function (bot, config) {
             } else {
                 network[val.channelID] = val;
                 channelsCache[val.channelID] = new Map();
-                
+
+                /*
+                var date = new Date();
+
                 bot.executeWebhook(val.whID, val.whToken, {
                     username: bot.user.username,
                     avatarURL: bot.user.avatarURL,
-                    content: 'Bot Ready - Cross Server system operational!',
+                    content: 'Bot started. It is: ' + date.toISOString(),
                 } );
+                */
             }
         }
     } );
