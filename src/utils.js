@@ -19,7 +19,7 @@ exports.triggerWH = async function (bot, network, channelConfig, originConfig, u
         } );
     } catch (err) {
         const errMsg = guildObj
-            ? `WebHook unavailable in ${guildObj.name}.`
+            ? `\`The last message failed to go through to ${guildObj.name}. It might be the bot's fault, or Discord being buggy.\``
             : `Guild unavailable: ${channelConfig.guildID}.`;
         
         console.log(errMsg);
