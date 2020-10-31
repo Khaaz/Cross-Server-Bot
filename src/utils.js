@@ -13,7 +13,8 @@ exports.triggerWH = async function (bot, network, channelConfig, originConfig, u
         message = await bot.executeWebhook(channelConfig.whID, channelConfig.whToken, {
             username: `${authorName} from ${originConfig.name}`,
             avatarURL: user.avatarURL,
-            content: enhanceMention(content, guildObj),
+            //content: enhanceMention(content, guildObj),
+            content: content,
             wait: true,
             auth: true,
         } );
