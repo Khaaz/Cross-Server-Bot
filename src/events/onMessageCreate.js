@@ -19,17 +19,6 @@ exports.onMessageCreate = async(botClient, network, channelsCache, msg) => {
         return;
     }
 
-    if (msg.content.startsWith(botClient.prefix) && msg.member.roles.some(r => cur.managerRoles.includes(r) ) ) {
-        const args = msg.content.split(' ');
-        const label = args[0].slice(botClient.prefix.length, args[0].length);
-        const command = commands[label];
-        command(botClient, network, channelsCache, msg, args.slice(1, args.length) )
-            .then( () => console.log(`EXEC: ${label} in ${cur.name} by ${msg.author.username}`) )
-            .catch(console.log);
-        
-        return;
-    }
-
     if (cur.ignore) { // ignore channels if needed
         return;
     }
