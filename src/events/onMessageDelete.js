@@ -21,9 +21,9 @@ exports.onMessageDelete = async(botClient, network, channelsCache, msg) => {
     const messages = channelsCache[msg.channel.id].get(msg.id);
     for (const m of messages) {
         try {
-            m.delete().catch();
-        } catch (err) {
-            console.log(err);
+            await m.delete();
+        } catch (_) {
+            
         }
     }
     channelsCache[msg.channel.id].delete(msg.id);
