@@ -21,6 +21,10 @@ exports.onMessageCreate = async(botClient, network, channelsCache, msg) => {
         return;
     }
 
+    if (msg.content.includes("pinned a message to this channel. See all the pins.")) {
+        return;
+    }
+
     const attachments = msg.attachments.length > 0
         ? msg.attachments.map(a => a.url)
         : [];
