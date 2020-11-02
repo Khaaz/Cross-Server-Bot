@@ -95,14 +95,14 @@ function parse(content, guild) {
     let resolved = null;
     if (res[1] === '@') {
         resolved = ENHANCED_MENTION_CONFIG.role
-            ? Resolver.role(guild, res[2] )
+            ? Resolver.role(guild, res[2])
             : null;
         if (resolved) {
             return resolved.mention;
         }
 
         resolved = ENHANCED_MENTION_CONFIG.user
-            ? Resolver.member(guild, res[2] )
+            ? Resolver.member(guild, res[2])
             : null;
         if (resolved) {
             return resolved.mention;
@@ -110,7 +110,7 @@ function parse(content, guild) {
         return content;
     }
     if (ENHANCED_MENTION_CONFIG.channel && res[1] === '#') {
-        resolved = Resolver.channel(guild, res[2] );
+        resolved = Resolver.channel(guild, res[2]);
         return resolved
             ? resolved.mention
             : content;
@@ -130,7 +130,7 @@ exports.deconstructMention = function (content, guild) {
     for (const e of contentArr) {
         const res = e.match(MENTION_REGEX);
         res
-            ? final.push(extractMention(res, guild) )
+            ? final.push(extractMention(res, guild))
             : final.push(e);
     }
     return final;

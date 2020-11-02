@@ -34,10 +34,10 @@ exports.setup = function (bot, config) {
         }
     } );
 
-    bot.on('messageCreate', (msg) => onMessageCreate(bot, network, channelsCache, msg) );
-    bot.on('messageUpdate', (msg, oldMsg) => onMessageUpdate(bot, network, channelsCache, config.deleteOnUpdate, msg, oldMsg) );
+    bot.on('messageCreate', (msg) => onMessageCreate(bot, network, channelsCache, msg));
+    bot.on('messageUpdate', (msg, oldMsg) => onMessageUpdate(bot, network, channelsCache, config.deleteOnUpdate, msg, oldMsg));
     
     if (config.messageDelete) {
-        bot.on('messageDelete', (msg) => onMessageDelete(bot, network, channelsCache, msg) );
+        bot.on('messageDelete', (msg) => onMessageDelete(bot, network, channelsCache, msg));
     }
 };

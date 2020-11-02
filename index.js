@@ -8,5 +8,5 @@ setup(bot, config);
 
 bot.connect();
 
-// bot.on('error', (err) => console.log(err);
-// bot.on('warn', (msg) => console.log(msg);
+bot.on('error', (err) => console.log(`${err.stack || err.message}`));
+bot.on('warn', (msg) => console.log(`${msg}`));

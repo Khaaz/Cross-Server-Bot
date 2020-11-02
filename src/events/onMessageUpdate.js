@@ -26,6 +26,7 @@ exports.onMessageUpdate = async(botClient, network, channelsCache, deleteOnUpdat
 
     const fullLength = `${attachments.join('\n')}\n${msg.content}`.length;
     const fullMsg = [...attachments, ...deconstructMention(msg.content, msg.channel.guild)];
+    
     if (fullLength > MESSAGE_LIMIT) {
         msg.channel.createMessage(`${msg.author.mention}: Message too long!`);
         return;
@@ -37,7 +38,7 @@ exports.onMessageUpdate = async(botClient, network, channelsCache, deleteOnUpdat
         if (channelConfig.channelID === msg.channel.id) {
             continue;
         }
-        messages.push(await triggerWH(botClient, network, channelConfig, cur, msg.author, msg.member, fullMsg) );
+        messages.push(await triggerWH(botClient, network, channelConfig, cur, msg.author, msg.member, fullMsg));
     }
     if (deleteOnUpdate) {
         const toDelete = channelsCache[msg.channel.id].get(msg.id);

@@ -34,7 +34,7 @@ exports.triggerWH = async function (bot, network, channelConfig, originConfig, u
                     username: bot.user.username,
                     avatarURL: bot.user.avatarURL,
                     content: errMsg,
-                } );
+                });
             } catch (_) {
                 // Do nothing since it would already be handled by another triggerWH
             }
