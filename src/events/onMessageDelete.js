@@ -1,5 +1,7 @@
 'use strict';
 
+const { triggerWHDelete } = require('../utils');
+
 exports.onMessageDelete = async(botClient, network, channelsCache, msg) => {
     if (!msg.author || msg.author.discriminator === '0000' || !msg.channel.guild) {
         return;
@@ -19,12 +21,9 @@ exports.onMessageDelete = async(botClient, network, channelsCache, msg) => {
     }
 
     const messages = channelsCache[msg.channel.id].get(msg.id);
-    for (const m of messages) {
-        try {
-            await m.delete();
-        } catch (_) {
-            
-        }
+    for (const [i, message] of messages.entries()) {
+        const channelConfig = network[message.channel.id];
+        messages[i] = await triggerWHDelete(botClient, network, channelConfig, message.id);
     }
     channelsCache[msg.channel.id].delete(msg.id);
 };
