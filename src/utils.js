@@ -57,7 +57,7 @@ exports.triggerWHEdit = async function (bot, network, channelConfig, originConfi
         } );
     } catch (err) {
         const errMsg = guildObj
-            ? `\`The last **edit** failed to go through to ${guildObj.name}. It might be the bot's fault, or Discord being buggy.\``
+            ? `\`The last edit failed to go through to ${guildObj.name}. It might be the bot's fault, or Discord being buggy.\``
             : `Guild unavailable: ${channelConfig.guildID}.`;
         
         console.log(errMsg);
@@ -88,7 +88,7 @@ exports.triggerWHDelete = async function (bot, network, channelConfig, messageID
         result = await bot.webhookDeleteMessage(channelConfig.whID, channelConfig.whToken, messageID);
     } catch (err) {
         const errMsg = guildObj
-            ? `\`The last **delete** failed to go through to ${guildObj.name}. It might be the bot's fault, or Discord being buggy.\``
+            ? `\`The last delete failed to go through to ${guildObj.name}. It might be the bot's fault, or Discord being buggy.\``
             : `Guild unavailable: ${channelConfig.guildID}.`;
         
         console.log(errMsg);
