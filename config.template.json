@@ -5,9 +5,7 @@
         "role": false,
         "channel": false
     },
-    "prefix": "c!",
-    "messageDelete": true,
-    "deleteOnUpdate": true,
+
     "guilds": [ 
         {
             "name": "name",
@@ -18,7 +16,6 @@
             "whToken": "",
             "ignoreAll": false,
             "ignoreBots": true,
-            "managerRoles": []
         },
         {
             "name": "name2",
@@ -29,7 +26,6 @@
             "whToken": "",
             "ignoreAll": false,
             "ignoreBots": true,
-            "managerRoles": []
         }
     ]
 }
