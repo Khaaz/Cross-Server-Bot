@@ -1,0 +1,10 @@
+{
+    "terminal.integrated.allowMnemonics": true,
+    "workbench.activityBar.iconClickBehavior": "focus",
+    "workbench.editor.closeOnFileDelete": true,
+    "workbench.editor.highlightModifiedTabs": true,
+    "workbench.editor.labelFormat": "medium",
+    "workbench.editor.limit.perEditorGroup": true,
+    "workbench.editor.limit.enabled": true,
+    "debug.console.closeOnEnd": true
+}
