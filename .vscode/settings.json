@@ -6,5 +6,10 @@
     "workbench.editor.labelFormat": "medium",
     "workbench.editor.limit.perEditorGroup": true,
     "workbench.editor.limit.enabled": true,
-    "debug.console.closeOnEnd": true
+    "debug.console.closeOnEnd": true,
+    "npm.enableRunFromFolder": true,
+    "npm.runSilent": true,
+    "markdown.preview.breaks": true,
+    "merge-conflict.autoNavigateNextConflict.enabled": true,
+    "markdown.trace": "verbose"
 }
