@@ -6,7 +6,8 @@
   "license": "MIT",
   "main": "index.js",
   "dependencies": {
-    "eris": "github:abalabahaha/eris#dev"
+    "eris": "github:abalabahaha/eris#dev",
+    "yarn": "^1.22.10"
   },
   "devDependencies": {
     "@axonteam/eslint-config": "^2.2.1",
