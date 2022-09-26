@@ -13,7 +13,7 @@
     "eslint": "^6.8.0"
   },
   "optionalDependencies": {
-    "pm2": "^3.5.2"
+    "pm2": "^5.2.0"
   },
   "scripts": {
     "start": "node index.js",
